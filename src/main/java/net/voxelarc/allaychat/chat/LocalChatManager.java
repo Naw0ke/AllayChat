@@ -457,9 +457,18 @@ public class LocalChatManager implements ChatManager {
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return messageComponent;
 
+        Component variableComponent;
+        if (item.getAmount() > 1) {
+            String variableFormat = plugin.getReplacementConfig().getString("item.variable", "<#34ebd8><amount>x ");
+            variableComponent = ChatUtils.format(variableFormat, Placeholder.unparsed("amount", item.getAmount() + ""));
+        } else {
+            variableComponent = Component.empty();
+        }
+        
         Component component = ChatUtils.format(
                 plugin.getReplacementConfig().getString("item.text"),
                 Placeholder.unparsed("amount", item.getAmount() + ""),
+                Placeholder.component("variable", variableComponent),
                 Placeholder.component("item", (meta.hasDisplayName() ? meta.displayName() : Component.translatable(item)).hoverEvent(item))
         );
 
