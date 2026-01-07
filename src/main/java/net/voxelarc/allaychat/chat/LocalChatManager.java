@@ -147,7 +147,7 @@ public class LocalChatManager implements ChatManager {
             messageComponent = handleInventory(player, messageContent, messageComponent);
 
         if (plugin.getReplacementConfig().getBoolean("shulker.enabled"))
-            messageComponent = handleShulker(player, messageContent, messageComponent);
+            messageComponent = handleShulker(player, messageContent, messageComponent, plugin.getReplacementConfig().getString("shulker.syntax", "[shulker]"));
 
         Component component = ChatUtils.format(
                 PlaceholderAPI.setPlaceholders(player, format.format()),
@@ -450,6 +450,10 @@ public class LocalChatManager implements ChatManager {
         ItemStack item = player.getInventory().getItemInMainHand();
         if (item == null || item.isEmpty()) return messageComponent;
 
+        if (Tag.SHULKER_BOXES.isTagged(item.getType())) {
+            return handleShulker(player, messageContent, messageComponent, syntax);
+        }
+        
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return messageComponent;
 
@@ -516,8 +520,7 @@ public class LocalChatManager implements ChatManager {
         return messageComponent;
     }
 
-    private Component handleShulker(Player player, String messageContent, Component messageComponent) {
-        String syntax = plugin.getReplacementConfig().getString("shulker.syntax", "[shulker]");
+    private Component handleShulker(Player player, String messageContent, Component messageComponent, String syntax) {
         if (!messageContent.contains(syntax)) return messageComponent;
 
         ItemStack item = player.getInventory().getItemInMainHand();
