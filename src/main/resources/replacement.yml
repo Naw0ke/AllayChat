@@ -8,7 +8,8 @@ inventory:
 item:
   enabled: true
   syntax: "[item]"
-  text: "<dark_gray>[<#34ebd8><amount>x <item><dark_gray>]" # <player> placeholder can also be used
+  variable: "<#34ebd8><amount>x " # <variable> only displays if the amount > 1
+  text: "<dark_gray>[<variable><#34ebd8><item><dark_gray>]" # <amount> placeholder can also be used
 
 # This is a special case, item replacement will not work fully for shulkers.
 shulker:
