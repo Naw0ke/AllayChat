@@ -318,7 +318,11 @@ public class LocalChatManager implements ChatManager {
         this.lastMessageCache.put(from.getName(), to);
         this.lastMessageCache.put(to, from.getName());
 
-        plugin.getUserManager().getAllUsers().stream().filter(ChatUser::isSpyEnabled).forEach(spyUser -> {
+        plugin.getUserManager().getAllUsers().stream()
+            .filter(ChatUser::isSpyEnabled)
+            .filter(spyUser -> !spyUser.getUniqueId().equals(from.getUniqueId())
+                            && !spyUser.getUniqueId().equals(target.getUniqueId()))
+            .forEach(spyUser -> {
             Player player = Bukkit.getPlayer(spyUser.getUniqueId());
             if (player == null) return;
 
