@@ -28,8 +28,9 @@ public class CooldownFilter implements ChatFilter {
         enabled = plugin.getFilterConfig().getBoolean("cooldown.enabled", true);
         blockedMessage = ChatUtils.format(plugin.getFilterConfig().getString("cooldown.message"));
 
-        int seconds = plugin.getFilterConfig().getInt("cooldown.seconds", 5);
-        cooldownCache = CacheBuilder.newBuilder().expireAfterWrite(seconds, TimeUnit.SECONDS).build();
+        double seconds = plugin.getFilterConfig().getDouble("cooldown.seconds", 5);
+        long ms = (long) (seconds * 1000);
+        cooldownCache = CacheBuilder.newBuilder().expireAfterWrite(ms, TimeUnit.MILLISECONDS).build();
     }
 
     @Override
