@@ -335,7 +335,7 @@ public class LocalChatManager implements ChatManager {
     @Override
     public void handleStaffChatMessage(Player from, String message) {
         Component component = ChatUtils.format(
-                plugin.getStaffChatConfig().getString("format"),
+                PlaceholderAPI.setPlaceholders(from, plugin.getStaffChatConfig().getString("format")),
                 ChatUtils.papiTag(from),
                 Placeholder.unparsed("message", message),
                 Placeholder.unparsed("player", from.getName())
