@@ -61,6 +61,8 @@ public interface ChatManager {
 
     Component handleMentions(Player player, String messageContent, Component messageComponent);
 
+    Component formatConnectionMessage(Player player, String type);
+
     enum InventoryType {
         SHULKER,
         INVENTORY,
