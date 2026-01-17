@@ -1,6 +1,7 @@
 package net.voxelarc.allaychat.listener;
 
 import lombok.RequiredArgsConstructor;
+import net.kyori.adventure.text.Component;
 import net.voxelarc.allaychat.AllayChatPlugin;
 import net.voxelarc.allaychat.api.user.ChatUser;
 import org.bukkit.entity.Player;
@@ -19,6 +20,12 @@ public class ConnectionListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+
+        Component joinMessage = plugin.getChatManager().formatConnectionMessage(player, "connection.join");
+        if (joinMessage != null) {
+            event.joinMessage(joinMessage);
+        }
+
         // Delay the loading of user data to ensure that the player is fully connected
         plugin.getScheduler().runLaterAsync(() -> {
             plugin.getDatabase().loadPlayerAsync(player.getUniqueId()).whenComplete((user, throwable) -> {
@@ -45,6 +52,11 @@ public class ConnectionListener implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
+
+        Component quitMessage = plugin.getChatManager().formatConnectionMessage(player, "connection.leave");
+        if (quitMessage != null) {
+            event.quitMessage(quitMessage);
+        }
 
         ChatUser chatUser = plugin.getUserManager().getUser(player.getUniqueId());
         if (chatUser == null) return;
