@@ -14,12 +14,14 @@ public class CapsFilter implements ChatFilter {
 
     private int maxCaps = 3;
     private boolean enabled = true;
+    private boolean bypassUsernames = false;
 
     private Component blockedMessage;
 
     @Override
     public void onEnable() {
         enabled = plugin.getFilterConfig().getBoolean("caps.enabled", true);
+        bypassUsernames = plugin.getFilterConfig().getBoolean("caps.bypass-usernames", false);
         maxCaps = plugin.getFilterConfig().getInt("caps.max-caps", 3);
         blockedMessage = ChatUtils.format(plugin.getFilterConfig().getString("caps.message"));
     }
@@ -28,6 +30,22 @@ public class CapsFilter implements ChatFilter {
     public boolean checkMessage(Player player, String message) {
         if (!enabled) return false;
         if (player.hasPermission("allaychat.bypass.caps")) return false;
+
+        if (bypassUsernames) {
+            String[] split = message.split(" ");
+            int totalPlayerNameCaps = 0;
+            for (String msg : split) {
+                if (plugin.getPlayerManager().getAllPlayers().stream().noneMatch(msg::equals)) continue;
+                totalPlayerNameCaps += capsCount(msg);
+            }
+
+            if (capsCount(message) - totalPlayerNameCaps >= maxCaps) {
+                ChatUtils.sendMessage(player, blockedMessage);
+                return true;
+            }
+
+            return false;
+        }
 
         if (capsCount(message) >= maxCaps) {
             ChatUtils.sendMessage(player, blockedMessage);

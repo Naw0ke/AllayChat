@@ -32,6 +32,7 @@ caps:
   enabled: false
   max-caps: 5 # the maximum number of caps in a message
   message: "<prefix> <red>You are using too much caps."
+  bypass-usernames: false # should we allow caps if it's in a player's name
 
 regex:
   enabled: true
