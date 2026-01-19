@@ -2,6 +2,8 @@ enabled: true
 
 filter: true # should filters be applied to private messages?
 
+sound: "ui.hud.bubble_pop" # keep it empty to disable sound
+
 messages:
   not-found: "<prefix> <red>Player not found."
   self: "<prefix> <red>You can not message yourself."
