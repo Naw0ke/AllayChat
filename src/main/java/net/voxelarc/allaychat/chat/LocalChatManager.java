@@ -121,8 +121,13 @@ public class LocalChatManager implements ChatManager {
         }
 
         String messageContent = PlainTextComponentSerializer.plainText().serialize(message);
+        
+        boolean alreadyFormatted = !message.equals(Component.text(messageContent));
+
         Component messageComponent;
-        if (player.hasPermission("allaychat.chatcolor")) {
+        if (alreadyFormatted) {
+            messageComponent = message;
+        } else if (player.hasPermission("allaychat.chatcolor")) {
             messageComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(messageContent);
         } else {
             messageComponent = Component.text(ChatUtils.MINI_MESSAGE.stripTags(messageContent));
@@ -226,8 +231,8 @@ public class LocalChatManager implements ChatManager {
             return;
         }
 
-        String message = PlainTextComponentSerializer.plainText().serialize(event.message());
-        event.setCancelled(plugin.getChatManager().handleMessage(player, message));
+        String plainMessage = PlainTextComponentSerializer.plainText().serialize(event.message());
+        event.setCancelled(plugin.getChatManager().handleMessage(player, plainMessage));
         event.renderer(ChatRenderer.viewerUnaware(plugin.getChatManager().getChatRenderer()));
         event.viewers().removeIf(viewer -> {
             if (!(viewer instanceof Player target)) return false;
