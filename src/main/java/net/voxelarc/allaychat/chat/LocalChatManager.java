@@ -501,7 +501,7 @@ public class LocalChatManager implements ChatManager {
                 plugin.getReplacementConfig().getString("item.text"),
                 Placeholder.unparsed("amount", item.getAmount() + ""),
                 Placeholder.component("variable", variableComponent),
-                Placeholder.component("item", (meta.hasDisplayName() ? meta.displayName() : Component.translatable(item)).hoverEvent(item))
+                Placeholder.component("item", (meta.hasDisplayName() ? meta.displayName() : meta.hasItemName() ? meta.itemName() : Component.translatable(item)).hoverEvent(item))
         );
 
         messageComponent = messageComponent.replaceText(TextReplacementConfig.builder()
