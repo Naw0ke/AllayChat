@@ -414,9 +414,11 @@ public class LocalChatManager implements ChatManager {
                             && (user.isMentionsEnabled() || player.hasPermission("allaychat.mention.bypass"))
                             && !user.getIgnoredPlayers().contains(player.getName());
 
-                    String soundName = replacementConfig.getString("mention.sound");
+                    String soundName = replacementConfig.isString("mention.sound") ? replacementConfig.getString("mention.sound") : replacementConfig.getString("mention.sound.name");
                     if (soundName != null && !soundName.isEmpty() && allow) {
-                        Sound sound = Sound.sound(Key.key(soundName), Sound.Source.MASTER, 1.0f, 1.0f);
+                        float volume = (float) replacementConfig.getDouble("mention.sound.volume", 1.0);
+                        float pitch = (float) replacementConfig.getDouble("mention.sound.pitch", 1.0);
+                        Sound sound = Sound.sound(Key.key(soundName), Sound.Source.MASTER, volume, pitch);
                         targetPlayer.playSound(sound);
                     }
 
@@ -501,7 +503,7 @@ public class LocalChatManager implements ChatManager {
                 plugin.getReplacementConfig().getString("item.text"),
                 Placeholder.unparsed("amount", item.getAmount() + ""),
                 Placeholder.component("variable", variableComponent),
-                Placeholder.component("item", (meta.hasDisplayName() ? meta.displayName() : Component.translatable(item)).hoverEvent(item))
+                Placeholder.component("item", (meta.hasDisplayName() ? meta.displayName() : meta.hasItemName() ? meta.itemName() : Component.translatable(item)).hoverEvent(item))
         );
 
         messageComponent = messageComponent.replaceText(TextReplacementConfig.builder()
