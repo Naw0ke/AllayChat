@@ -8,7 +8,8 @@ messages:
 
   reloaded: "<prefix> <white>Reloaded successfully."
 
-  inventory-load-failed: "<prefix> <red>Failed to load inventory."
+  data-not-loaded: "<prefix> <red>Data is not loaded."
+
   inventory-not-found: "<prefix> <red>Inventory not found."
 
   spy-enabled: "<prefix> <white>Spy mode enabled."

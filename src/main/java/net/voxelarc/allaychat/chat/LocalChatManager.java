@@ -351,9 +351,11 @@ public class LocalChatManager implements ChatManager {
             ChatUtils.sendMessage(player, spyComponent);
         });
 
-        String soundName = plugin.getPrivateMessageConfig().getString("sound");
+        String soundName = plugin.getPrivateMessageConfig().isString("sound") ? plugin.getPrivateMessageConfig().getString("sound") : plugin.getPrivateMessageConfig().getString("sound.name");
         if (soundName != null && !soundName.isEmpty()) {
-            Sound sound = Sound.sound(Key.key(soundName), Sound.Source.MASTER, 1.0f, 1.0f);
+            float volume = (float) plugin.getPrivateMessageConfig().getDouble("sound.volume", 1.0);
+            float pitch = (float) plugin.getPrivateMessageConfig().getDouble("sound.pitch", 1.0);
+            Sound sound = Sound.sound(Key.key(soundName), Sound.Source.MASTER, volume, pitch);
             target.playSound(sound);
         }
 
