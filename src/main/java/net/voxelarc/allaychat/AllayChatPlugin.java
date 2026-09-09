@@ -240,7 +240,8 @@ public final class AllayChatPlugin extends AllayChat {
                 new MsgToggleCommand(this),
                 new MentionsToggleCommand(this),
                 new ChatToggleCommand(this),
-                new MuteChatCommand(this)
+                new MuteChatCommand(this),
+                new ClearChatCommand(this)
         );
 
         commandManager.registerMessage(MessageKey.INVALID_ARGUMENT, (sender, invalidArgumentContext) ->
