@@ -32,3 +32,6 @@ messages:
   chat-mute-toggle-disabled: "<prefix> <white>Chat is now unmuted."
   chat-mute-broadcast-enabled: "<prefix> <white>Chat is now muted. You can't talk anymore."
   chat-mute-broadcast-disabled: "<prefix> <white>Chat is now unmuted. You can talk again."
+
+  chat-cleared: "<prefix> <white>Chat cleared."
+  chat-cleared-broadcast: "<prefix> <white>Chat has been cleared by <#34ebd8><player><white>."
